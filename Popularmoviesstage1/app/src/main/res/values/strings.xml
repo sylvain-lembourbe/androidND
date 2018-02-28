@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Popular-movies-stage-1</string>
+
+    <!-- JSON KEYS -->
+    <string name="results" translatable="false">results</string>
+    <string name="id" translatable="false">id</string>
+    <string name="title" translatable="false">title</string>
+    <string name="original_title" translatable="false">original_title</string>
+    <string name="poster_path" translatable="false">poster_path</string>
+    <string name="backdrop_path" translatable="false">backdrop_path</string>
+    <string name="release_date" translatable="false">release_date</string>
+    <string name="overview" translatable="false">overview</string>
+    <string name="vote_average" translatable="false">vote_average</string>
+
+    <!-- MENU LABELS -->
+    <string name="action_popular_movies">Popular movies</string>
+    <string name="action_top_rated_movies">Top rated Movies</string>
+
+    <!-- Details activity labels -->
+    <string name="detail_title">Title</string>
+    <string name="detail_original_title">Original title</string>
+    <string name="detail_release_date">Release date</string>
+    <string name="detail_average_note">Average note</string>
+    <string name="detail_overview">Synopsis</string>
+</resources>
