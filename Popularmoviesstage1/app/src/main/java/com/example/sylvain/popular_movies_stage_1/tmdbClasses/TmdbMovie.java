@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-/**
- * Created by sylvain on 22/02/2018.
- */
+
 
 public class TmdbMovie implements Parcelable{
     private int id;
@@ -28,7 +26,7 @@ public class TmdbMovie implements Parcelable{
 
     }
 
-    protected TmdbMovie(Parcel in) {
+    private TmdbMovie(Parcel in) {
         id = in.readInt();
         title = in.readString();
         original_title = in.readString();
@@ -72,9 +70,7 @@ public class TmdbMovie implements Parcelable{
     public void setTitle(String _title){
         this.title = _title;
     }
-    public void setId(int _id){
-        this.id = _id;
-    }
+
     public void setOriginalTitle(String _originalTitle){
         this.original_title = _originalTitle;
     }
@@ -84,9 +80,6 @@ public class TmdbMovie implements Parcelable{
         Log.i(TmdbMovie.class.getName(),this.poster_path);
     }
 
-    public void setBackdropPath(String _backdropPath){
-        this.backdrop_path = _backdropPath;
-    }
     public void setReleaseDate(String _releaseDate){
         this.release_date = _releaseDate;
     }
@@ -98,10 +91,6 @@ public class TmdbMovie implements Parcelable{
     }
 
 
-
-    public int getId(){
-        return this.id;
-    }
     public String getTitle(){
         return this.title;
     }
@@ -111,9 +100,7 @@ public class TmdbMovie implements Parcelable{
     public String getPosterPath(){
         return this.poster_path;
     }
-    public String getBackdropPath(){
-        return this.backdrop_path;
-    }
+
     public String getReleaseDate(){
         return this.release_date;
     }

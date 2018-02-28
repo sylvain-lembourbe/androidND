@@ -7,25 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.sylvain.popular_movies_stage_1.tmdbClasses.TmdbMovie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Created by sylvain on 25/02/2018.
- */
 
 //1 implements onclicklistener
-public class CustomArrayAdapter extends ArrayAdapter<TmdbMovie> implements View.OnClickListener{
+class CustomArrayAdapter extends ArrayAdapter<TmdbMovie> implements View.OnClickListener{
 
-    private List<TmdbMovie> moviesList;
-    private Context context;
+    private final List<TmdbMovie> moviesList;
+    private final Context context;
 
     //2 reference à l'interface
-    private ItemClickListener itemClickListener;
+    private final ItemClickListener itemClickListener;
 
     //3 modification du constructeur
     public CustomArrayAdapter(@NonNull Context context, int resource, @NonNull List<TmdbMovie> objects, ItemClickListener _itemClickListener) {

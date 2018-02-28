@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.example.sylvain.popular_movies_stage_1.MainActivity;
 import com.example.sylvain.popular_movies_stage_1.R;
 
 import org.json.JSONArray;
@@ -14,15 +13,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by sylvain on 22/02/2018.
- */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class TmdbJson {
 
     public static List<TmdbMovie> createMoviesList(Context context, JSONObject jsonObject){
 
-        List<TmdbMovie> mList = new ArrayList<TmdbMovie>();
+        List<TmdbMovie> mList = new ArrayList<>();
 
         Resources res = context.getResources();
         try {
@@ -36,9 +33,7 @@ public class TmdbJson {
 
                     JSONObject objJsonMovie = (JSONObject) jsonMovies.get(i);
 
-                    if(objJsonMovie.has(res.getString(R.string.id))) {
-                        objMovie.setId(objJsonMovie.getInt(res.getString(R.string.id)));
-                    }
+
                     if(objJsonMovie.has(res.getString(R.string.title))) {
                         objMovie.setTitle(objJsonMovie.getString(res.getString(R.string.title)));
                     }
@@ -51,9 +46,7 @@ public class TmdbJson {
                     if(objJsonMovie.has(res.getString(R.string.poster_path))) {
                         objMovie.setPosterPath(objJsonMovie.getString(res.getString(R.string.poster_path)));
                     }
-                    if(objJsonMovie.has(res.getString(R.string.backdrop_path))) {
-                        objMovie.setBackdropPath(objJsonMovie.getString(res.getString(R.string.backdrop_path)));
-                    }
+
                     if(objJsonMovie.has(res.getString(R.string.release_date))) {
                         objMovie.setReleaseDate(objJsonMovie.getString(res.getString(R.string.release_date)));
                     }

@@ -1,14 +1,10 @@
 package com.example.sylvain.popular_movies_stage_1;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sylvain.popular_movies_stage_1.tmdbClasses.TmdbJson;
 import com.example.sylvain.popular_movies_stage_1.tmdbClasses.TmdbMovie;
@@ -32,12 +27,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
-
-
-//retirer la clé de l'API
-//empecher le plantage si pas d'internet
 
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener{
@@ -112,13 +102,10 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     private boolean checkConnexion(){
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork == null){
-            return false;
-        }
-        return true;
+        return activeNetwork != null;
     }
 
-    private class AsyncTmdbData extends AsyncTask<URL,Void,JSONObject>{
+     class AsyncTmdbData extends AsyncTask<URL,Void,JSONObject>{
 
         @Override
         protected JSONObject doInBackground(URL... urls) {

@@ -3,11 +3,11 @@
 
     <!-- JSON KEYS -->
     <string name="results" translatable="false">results</string>
-    <string name="id" translatable="false">id</string>
+
     <string name="title" translatable="false">title</string>
     <string name="original_title" translatable="false">original_title</string>
     <string name="poster_path" translatable="false">poster_path</string>
-    <string name="backdrop_path" translatable="false">backdrop_path</string>
+
     <string name="release_date" translatable="false">release_date</string>
     <string name="overview" translatable="false">overview</string>
     <string name="vote_average" translatable="false">vote_average</string>
@@ -22,4 +22,8 @@
     <string name="detail_release_date">Release date</string>
     <string name="detail_average_note">Average note</string>
     <string name="detail_overview">Synopsis</string>
+
+    <string name="content_description">Movie poster</string>
+
+    <string name="internet_error">NO INTERNET CONNECTION</string>
 </resources>

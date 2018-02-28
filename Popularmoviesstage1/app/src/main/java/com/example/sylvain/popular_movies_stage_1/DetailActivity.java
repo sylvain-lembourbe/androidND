@@ -25,15 +25,18 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent movieIntent = getIntent();
         if(movieIntent.hasExtra("currentMovie")) {
+
             TmdbMovie currentMovie = movieIntent.getExtras().getParcelable("currentMovie");
 
-            Picasso.with(this).load(currentMovie.getPosterPath()).into(img_poster);
-
+            if(currentMovie.getPosterPath()!=null) {
+                Picasso.with(this).load(currentMovie.getPosterPath()).into(img_poster);
+            }
             tv_title.setText(currentMovie.getTitle());
             tv_original_title.setText(currentMovie.getOriginalTitle());
             tv_release_date.setText(currentMovie.getReleaseDate());
             tv_vote.setText(String.valueOf(currentMovie.getVoteAverage()));
             tv_overview.setText(currentMovie.getOverview());
+
         }
 
     }

@@ -6,10 +6,6 @@ import android.util.Log;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by sylvain on 21/02/2018.
- */
-
 public class TmdbUrlBuilder {
 
 
@@ -24,7 +20,7 @@ public class TmdbUrlBuilder {
     private static final String API_KEY = "api_key";
 
     //API KEY HERE
-    public static final String API_NUMBER_STRING = "";
+    private static final String API_NUMBER_STRING = "";
 
     public static URL createURL(String segment){
         Uri requestUri = Uri.parse(BASE_URL).buildUpon()
