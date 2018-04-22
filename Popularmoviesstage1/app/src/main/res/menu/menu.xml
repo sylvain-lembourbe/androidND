@@ -9,4 +9,8 @@
         android:title="@string/action_top_rated_movies"
         app:showAsAction="never"
         android:orderInCategory="2"/>
+    <item android:id="@+id/menu_favorites"
+        android:title="Favorites"
+        app:showAsAction="never"
+        android:orderInCategory="3"/>
 </menu>

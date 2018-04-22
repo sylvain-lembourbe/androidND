@@ -16,10 +16,11 @@ public class TmdbUrlBuilder {
 
     public static final String POPULAR_SEGMENT = "popular";
     public static final String TOP_RATED_SEGMENT = "top_rated";
-
-    private static final String API_KEY = "api_key";
+    public static final String VIDEOS_SEGMENT = "videos";
+    public static final String REVIEWS_SEGMENT = "reviews";
 
     //API KEY HERE
+    private static final String API_KEY = "api_key";
     private static final String API_NUMBER_STRING = "";
 
     public static URL createURL(String segment){
@@ -28,14 +29,7 @@ public class TmdbUrlBuilder {
                 .appendQueryParameter(API_KEY,API_NUMBER_STRING)
                 .build();
 
-        URL url = null;
-        try{
-            url = new URL(requestUri.toString());
-        }
-        catch (MalformedURLException ex){
-            Log.e(TmdbUrlBuilder.class.getSimpleName(),ex.getMessage());
-        }
-        return url;
+        return builtURL(requestUri);
     }
 
     public static URL createImageUrl(String imgSegment){
@@ -44,10 +38,25 @@ public class TmdbUrlBuilder {
                 .appendEncodedPath(imgSegment)
                 .build();
 
+        return builtURL(requestUri);
+    }
+
+    public static URL createURL(String segment,int id){
+        Uri requestUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(Integer.toString(id))
+                .appendPath(segment)
+                .appendQueryParameter(API_KEY,API_NUMBER_STRING)
+                .build();
+
+        return builtURL(requestUri);
+    }
+
+    private static URL builtURL(Uri uri){
         URL url = null;
         try{
-            url = new URL(requestUri.toString());
-        }catch (MalformedURLException ex){
+            url = new URL(uri.toString());
+        }
+        catch (MalformedURLException ex){
             Log.e(TmdbUrlBuilder.class.getSimpleName(),ex.getMessage());
         }
         return url;

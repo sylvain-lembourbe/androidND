@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.json.JSONObject;
+
+import java.util.List;
 
 
 public class TmdbMovie implements Parcelable{
@@ -21,6 +24,10 @@ public class TmdbMovie implements Parcelable{
 
     private int vote_average;
 
+    private List<TmdbTrailer> trailer_list;
+    private List<TmdbReviews> reviews_list;
+
+    private boolean isFavorite;
 
     public TmdbMovie(){
 
@@ -67,6 +74,10 @@ public class TmdbMovie implements Parcelable{
     }
 
 
+    public void setId(int _id){
+        this.id = _id;
+    }
+
     public void setTitle(String _title){
         this.title = _title;
     }
@@ -76,7 +87,7 @@ public class TmdbMovie implements Parcelable{
     }
 
     public void setPosterPath(String _posterPath){
-        this.poster_path = TmdbUrlBuilder.createImageUrl(_posterPath).toString();
+        this.poster_path = _posterPath;
         Log.i(TmdbMovie.class.getName(),this.poster_path);
     }
 
@@ -90,7 +101,20 @@ public class TmdbMovie implements Parcelable{
         this.vote_average = _voteAverage;
     }
 
+    public void setTrailer_list(JSONObject jsonObj){
+        this.trailer_list = TmdbJson.createTrailerList(jsonObj);
+    }
 
+    public void setReviews_list(JSONObject jsonObj){
+        this.reviews_list = TmdbJson.createReviewsList(jsonObj);
+    }
+
+    public void setIsFavorite(Boolean _isFav){
+        this.isFavorite = _isFav;
+    }
+
+
+    public int getId() { return this.id; }
     public String getTitle(){
         return this.title;
     }
@@ -109,6 +133,14 @@ public class TmdbMovie implements Parcelable{
     }
     public int getVoteAverage(){
         return this.vote_average;
+    }
+    public List<TmdbTrailer> getTrailer_list(){
+        return this.trailer_list;
+    }
+    public List<TmdbReviews> getReviews_list() { return this.reviews_list; }
+
+    public boolean getIsFavorite(){
+        return this.isFavorite;
     }
 
 }

@@ -26,4 +26,16 @@
     <string name="content_description">Movie poster</string>
 
     <string name="internet_error">NO INTERNET CONNECTION</string>
+
+
+    <!-- trailer layout strings -->
+    <string name="trailer_size">Size</string>
+    <string name="trailer_language">Language</string>
+    <string name="trailer_site">Site</string>
+    <string name="trailer_type">Type</string>
+
+    <!-- review layout strings -->
+    <string name="review_author">Author</string>
+    <string name="review_content">Content</string>
+    <string name="review_url">Url</string>
 </resources>

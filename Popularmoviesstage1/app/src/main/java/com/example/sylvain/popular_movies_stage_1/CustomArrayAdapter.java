@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.example.sylvain.popular_movies_stage_1.tmdbClasses.TmdbMovie;
+import com.example.sylvain.popular_movies_stage_1.tmdbClasses.TmdbUrlBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -41,8 +42,8 @@ class CustomArrayAdapter extends ArrayAdapter<TmdbMovie> implements View.OnClick
         if (imageView==null){
             imageView = new ImageView(context);
         }
-
-        Picasso.with(context).load(moviesList.get(position).getPosterPath()).into(imageView);
+        String posterPath =  TmdbUrlBuilder.createImageUrl(moviesList.get(position).getPosterPath()).toString();
+        Picasso.with(context).load(posterPath).into(imageView);
 
         //5 Brancher le listener du click
         imageView.setOnClickListener(this);
