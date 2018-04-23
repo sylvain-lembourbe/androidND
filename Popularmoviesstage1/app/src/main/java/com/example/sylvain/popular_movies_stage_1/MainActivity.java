@@ -61,11 +61,18 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         tv_error = findViewById(R.id.tv_error);
 
         //1er chargemement null on charge une requete par defaut
-        if(savedInstanceState == null) {
-            sendRequest(TmdbUrlBuilder.POPULAR_SEGMENT);
-        }else{ //on charge l'ancien contenu pour ne pas avoir à relancer la requete precedente
-            moviesList = savedInstanceState.getParcelableArrayList(SAVE_INSTANCE_STATE_CALLBACKS_KEY);
-            populateGridView();
+        if(checkConnexion()) {
+            if (savedInstanceState == null) {
+                sendRequest(TmdbUrlBuilder.POPULAR_SEGMENT);
+            } else { //on charge l'ancien contenu pour ne pas avoir à relancer la requete precedente
+                moviesList = savedInstanceState.getParcelableArrayList(SAVE_INSTANCE_STATE_CALLBACKS_KEY);
+                if (moviesList != null) {
+                    populateGridView();
+                }
+            }
+        }else{
+            gvMoviesPosters.setVisibility(View.INVISIBLE);
+            tv_error.setVisibility(View.VISIBLE);
         }
     }
 
@@ -108,10 +115,15 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     }
 
     private void showFavorites(){
-        if(getSupportLoaderManager().getLoader(LOADER_ID)==null) {
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        if(checkConnexion()){
+            if(getSupportLoaderManager().getLoader(LOADER_ID)==null) {
+                getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+            }else{
+                getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+            }
         }else{
-            getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+            gvMoviesPosters.setVisibility(View.INVISIBLE);
+            tv_error.setVisibility(View.VISIBLE);
         }
     }
 
@@ -184,19 +196,20 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(moviesList!=null) {
             moviesList.clear();
+
+            while (data.moveToNext()) {
+                TmdbMovie m = new TmdbMovie();
+                m.setId(Integer.parseInt(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.ID_MOVIE))));
+                m.setTitle(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.TITLE_MOVIE)));
+                m.setOriginalTitle(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.ORIGINAL_TITLE)));
+                m.setPosterPath(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.POSTER_PATH)));
+                m.setReleaseDate(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.RELEASE_DATE)));
+                m.setOverview(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.OVERVIEW)));
+                m.setVoteAverage(Integer.parseInt(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.VOTE_AVERAGE))));
+                moviesList.add(m);
+            }
+            populateGridView();
         }
-        while (data.moveToNext()){
-            TmdbMovie m = new TmdbMovie();
-            m.setId(Integer.parseInt(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.ID_MOVIE))));
-            m.setTitle(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.TITLE_MOVIE)));
-            m.setOriginalTitle(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.ORIGINAL_TITLE)));
-            m.setPosterPath(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.POSTER_PATH)));
-            m.setReleaseDate(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.RELEASE_DATE)));
-            m.setOverview(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.OVERVIEW)));
-            m.setVoteAverage(Integer.parseInt(data.getString(data.getColumnIndex(TmdbContract.TmdbFavorite.VOTE_AVERAGE))));
-            moviesList.add(m);
-        }
-        populateGridView();
     }
 
     @Override

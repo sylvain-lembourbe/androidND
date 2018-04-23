@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private ImageButton imageButton;
 
     private final static int LOADER_ID = 1;
+
 
 
     @Override
@@ -100,6 +102,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         getSupportLoaderManager().initLoader(LOADER_ID,null,this);
     }
+
+
 
     public void playTrailer(View view){
         int index = mRecyclerViewTrailers.getChildLayoutPosition((View)view.getParent());

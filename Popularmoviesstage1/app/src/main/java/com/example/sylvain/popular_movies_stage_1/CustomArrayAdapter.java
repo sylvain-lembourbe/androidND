@@ -49,6 +49,7 @@ class CustomArrayAdapter extends ArrayAdapter<TmdbMovie> implements View.OnClick
         imageView.setOnClickListener(this);
         //6 Stocker l'id de la vue pour retrouver dans la list des films
         imageView.setTag(position);
+        imageView.setAdjustViewBounds(true);
         return imageView;
     }
 
