@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.sylvain.popular_movies_stage_1.ReviewsRecyclerView.ReviewAdapter;
@@ -49,13 +51,19 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private final static int LOADER_ID = 1;
 
+    public static final String SCROLL_X = "scrollX";
+    public static final String SCROLL_Y = "scrollY";
 
+    NestedScrollView mScrollView;
+    int x;
+    int y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        mScrollView = findViewById(R.id.scrollView);
         imageButton = findViewById(R.id.btn_favorite);
 
         ImageView img_poster = findViewById(R.id.imgv_poster);
@@ -64,6 +72,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         TextView tv_release_date = findViewById(R.id.tv_release_date_value);
         TextView tv_vote = findViewById(R.id.tv_vote_average_value);
         TextView tv_overview = findViewById(R.id.tv_overview_value);
+
 
         Intent movieIntent = getIntent();
         if(movieIntent.hasExtra("currentMovie")) {
@@ -80,14 +89,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             tv_vote.setText(String.valueOf(currentMovie.getVoteAverage()));
             tv_overview.setText(currentMovie.getOverview());
 
+            //appel de la liste des trailers
+            URL urlTrailers = TmdbUrlBuilder.createURL(TmdbUrlBuilder.VIDEOS_SEGMENT,currentMovie.getId());
+            //appel de la liste des reviews
+            URL urlReviews = TmdbUrlBuilder.createURL(TmdbUrlBuilder.REVIEWS_SEGMENT,currentMovie.getId());
+            //lancement de la tache async
+            new AsyncTmdbTrailers().execute(urlTrailers,urlReviews);
         }
-
-        //appel de la liste des trailers
-        URL urlTrailers = TmdbUrlBuilder.createURL(TmdbUrlBuilder.VIDEOS_SEGMENT,currentMovie.getId());
-        //appel de la liste des reviews
-        URL urlReviews = TmdbUrlBuilder.createURL(TmdbUrlBuilder.REVIEWS_SEGMENT,currentMovie.getId());
-        //lancement de la tache async
-        new AsyncTmdbTrailers().execute(urlTrailers,urlReviews);
 
         //création du layout manager
         mRecyclerViewTrailers = findViewById(R.id.rv_trailers);
@@ -103,7 +111,25 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         getSupportLoaderManager().initLoader(LOADER_ID,null,this);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle bundle){
+        bundle.putInt(SCROLL_X,mScrollView.getScrollX());
+        bundle.putInt(SCROLL_Y,mScrollView.getScrollY());
 
+        super.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Bundle bundle){
+        super.onRestoreInstanceState(bundle);
+
+        mScrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.scrollTo(bundle.getInt(SCROLL_X),bundle.getInt(SCROLL_Y));
+            }
+        },500);
+    }
 
     public void playTrailer(View view){
         int index = mRecyclerViewTrailers.getChildLayoutPosition((View)view.getParent());
@@ -158,6 +184,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }else{
             imageButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
+
     }
 
     @Override
@@ -182,11 +209,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             currentMovie.setTrailer_list(result[0]);
             currentMovie.setReviews_list(result[1]);
 
-            trailerAdapter = new TrailerAdapter(currentMovie.getTrailer_list());
-            mRecyclerViewTrailers.setAdapter(trailerAdapter);
-
-            reviewAdapter = new ReviewAdapter(currentMovie.getReviews_list());
-            mRecyclerViewReviews.setAdapter(reviewAdapter);
+            showTrailersAndReviews();
         }
 
         private JSONObject scanData(URL url){
@@ -245,6 +268,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     public void showFavIcon(){
         getSupportLoaderManager().restartLoader(LOADER_ID,null,this);
+    }
+
+    public void showTrailersAndReviews(){
+        trailerAdapter = new TrailerAdapter(currentMovie.getTrailer_list());
+        mRecyclerViewTrailers.setAdapter(trailerAdapter);
+
+        reviewAdapter = new ReviewAdapter(currentMovie.getReviews_list());
+        mRecyclerViewReviews.setAdapter(reviewAdapter);
     }
 
 }
